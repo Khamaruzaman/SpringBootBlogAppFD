@@ -1,0 +1,20 @@
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 60px 24px;
+}
+
+.title {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+}
+
+.sub {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 36px;
+  font-style: italic;
+}

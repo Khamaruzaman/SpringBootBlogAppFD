@@ -1,0 +1,46 @@
+.hero {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 72px 0 64px;
+  border-bottom: 4px double var(--accent);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(200,64,26,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.heroInner { position: relative; }
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 20px;
+  font-family: var(--body);
+  font-weight: 600;
+}
+
+.heroTitle {
+  font-family: var(--serif);
+  font-size: clamp(42px, 6vw, 80px);
+  font-weight: 900;
+  line-height: 1.0;
+  color: var(--paper);
+  margin-bottom: 20px;
+  letter-spacing: -2px;
+}
+.heroTitle em { color: var(--accent2); font-style: italic; }
+
+.heroSub {
+  font-size: 18px;
+  color: rgba(245,240,232,0.65);
+  max-width: 540px;
+  font-weight: 300;
+  font-style: italic;
+}
