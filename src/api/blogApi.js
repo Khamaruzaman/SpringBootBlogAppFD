@@ -11,6 +11,12 @@ async function call(method, path, body, token) {
     headers: headers(token),
     ...(body ? { body: JSON.stringify(body) } : {}),
   })
+  
+  if (res.status === 401) {
+    sessionStorage.removeItem('blog_auth')
+    throw new Error('Session expired. Please login again.')
+  }
+  
   const json = await res.json()
   if (!json.success && json.message) throw new Error(json.message)
   return json.data
