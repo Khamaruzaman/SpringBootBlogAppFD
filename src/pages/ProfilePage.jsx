@@ -19,12 +19,10 @@ export default function ProfilePage({ userId }) {
   const [formError,  setFormError]  = useState('')
   const [saving,     setSaving]     = useState(false)
 
-  // If no userId prop, show the currently logged-in user's profile
-  const isSelf = !userId || (auth && userId === user?.id)
-
+  const isSelf = user?.username === auth.username
   const loadPosts = useCallback(async (u, p = 0) => {
     try {
-      const data = await api.getPostsByAuthor(u.id, p, auth?.token)
+      const data = await api.getPostsByAuthor(u.id, p, 9, auth?.token)
       setPosts(data.content || [])
       setTotalPages(data.totalPages || 0)
       setPage(p)
@@ -105,7 +103,7 @@ export default function ProfilePage({ userId }) {
         </div>
       ) : (
         <>
-          <PostGrid posts={posts} />
+          <PostGrid posts={posts} isAuthor={isSelf} />
           <Pagination page={page} totalPages={totalPages} onPage={(p) => loadPosts(user, p)} />
         </>
       )}

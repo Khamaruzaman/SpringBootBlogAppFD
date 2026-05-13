@@ -43,7 +43,7 @@ export function Pagination({ page, totalPages, onPage }) {
 }
 
 // ── PostCard ──────────────────────────────────────────────────────────────────
-export function PostCard({ post }) {
+export function PostCard({ post, isAuthor = false }) {
   const { navigate } = useNav()
   return (
     <div className={styles.card} onClick={() => navigate('post', { id: post.id })}>
@@ -63,16 +63,21 @@ export function PostCard({ post }) {
           </div>
           <div className={styles.cardViews}>👁 {post.views ?? 0}</div>
         </div>
+        {isAuthor && (
+          <span className={`publish-badge ${post.published ? "badge-published" : "badge-draft"}`}>
+            {post.published ? 'Published' : 'Draft'}
+          </span>
+        )}
       </div>
     </div>
   )
 }
 
 // ── PostGrid ──────────────────────────────────────────────────────────────────
-export function PostGrid({ posts }) {
+export function PostGrid({ posts, isAuthor = false }) {
   return (
     <div className={styles.grid}>
-      {posts.map((p) => <PostCard key={p.id} post={p} />)}
+      {posts.map((p) => <PostCard key={p.id} post={p} isAuthor={isAuthor} />)}
     </div>
   )
 }
