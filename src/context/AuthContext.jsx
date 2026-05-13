@@ -1,17 +1,71 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import * as api from '../api/blogApi'
 
 const AuthContext = createContext(null)
+
+// Decode JWT and check if expired
+const decodeJWT = (token) => {
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) return null
+    const decoded = JSON.parse(atob(parts[1]))
+    return decoded
+  } catch {
+    return null
+  }
+}
+
+const isTokenExpired = (token) => {
+  const decoded = decodeJWT(token)
+  if (!decoded || !decoded.exp) return true
+  return decoded.exp * 1000 < Date.now() // exp is in seconds, convert to ms
+}
 
 export function AuthProvider({ children }) {
   const [auth, setAuth] = useState(() => {
     try {
       const s = sessionStorage.getItem('blog_auth')
-      return s ? JSON.parse(s) : null
+      if (!s) return null
+      
+      const authData = JSON.parse(s)
+      // Check if token is expired
+      if (isTokenExpired(authData.token)) {
+        sessionStorage.removeItem('blog_auth')
+        return null
+      }
+      return authData
     } catch {
       return null
     }
   })
+
+  const [tokenExpired, setTokenExpired] = useState(false)
+
+  // Check token expiration periodically
+  useEffect(() => {
+    if (!auth?.token) return
+    
+    // Check every minute
+    const interval = setInterval(() => {
+      if (isTokenExpired(auth.token)) {
+        setAuth(null)
+        sessionStorage.removeItem('blog_auth')
+        setTokenExpired(true)
+      }
+    }, 60000)
+    
+    return () => clearInterval(interval)
+  }, [auth?.token])
+
+  // Listen for token expired event from API
+  useEffect(() => {
+    const handleTokenExpired = () => {
+      setTokenExpired(true)
+    }
+    
+    window.addEventListener('tokenExpired', handleTokenExpired)
+    return () => window.removeEventListener('tokenExpired', handleTokenExpired)
+  }, [])
 
   const persist = (a) => {
     setAuth(a)
@@ -33,8 +87,29 @@ export function AuthProvider({ children }) {
     sessionStorage.removeItem('blog_auth')
   }
 
+  const isAuthenticated = () => auth !== null && !isTokenExpired(auth.token)
+
+  const clearTokenExpired = () => {
+    setTokenExpired(false)
+  }
+
+  const triggerTokenExpired = () => {
+    setAuth(null)
+    sessionStorage.removeItem('blog_auth')
+    setTokenExpired(true)
+  }
+
   return (
-    <AuthContext.Provider value={{ auth, login, register, logout }}>
+    <AuthContext.Provider value={{ 
+      auth, 
+      login, 
+      register, 
+      logout, 
+      isAuthenticated,
+      tokenExpired,
+      clearTokenExpired,
+      triggerTokenExpired
+    }}>
       {children}
     </AuthContext.Provider>
   )

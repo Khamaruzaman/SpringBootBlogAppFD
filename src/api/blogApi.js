@@ -14,6 +14,8 @@ async function call(method, path, body, token) {
   
   if (res.status === 401) {
     sessionStorage.removeItem('blog_auth')
+    // Dispatch event to notify auth context
+    window.dispatchEvent(new CustomEvent('tokenExpired'))
     throw new Error('Session expired. Please login again.')
   }
   

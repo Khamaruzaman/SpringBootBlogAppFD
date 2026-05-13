@@ -4,13 +4,18 @@ import { useNav } from '../context/NavContext'
 import styles from './NavBar.module.css'
 
 export default function NavBar() {
-  const { auth, logout } = useAuth()
+  const { auth, logout, isAuthenticated } = useAuth()
   const { navigate } = useNav()
   const [search, setSearch] = useState('')
 
   const handleSearch = (e) => {
     e.preventDefault()
     if (search.trim()) navigate('search', { keyword: search.trim() })
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate('login')
   }
 
   return (
@@ -31,12 +36,12 @@ export default function NavBar() {
             <button type="submit" className={styles.searchBtn}>⌕</button>
           </form>
 
-          {auth ? (
+          {isAuthenticated() ? (
             <>
               <button className={styles.navBtn} onClick={() => navigate('profile', {})}>
                 @{auth.username}
               </button>
-              <button className={styles.navBtn} onClick={logout}>Sign Out</button>
+              <button className={styles.navBtn} onClick={handleLogout}>Sign Out</button>
             </>
           ) : (
             <>

@@ -1,6 +1,7 @@
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { NavProvider, useNav } from './context/NavContext'
 import NavBar from './components/NavBar'
+import SessionExpiredModal from './components/SessionExpiredModal'
 import HomePage    from './pages/HomePage'
 import PostPage    from './pages/PostPage'
 import LoginPage   from './pages/LoginPage'
@@ -44,6 +45,7 @@ export default function App() {
           <footer className="footer">
             <strong>The Journal</strong> · A blog for writers who mean it.
           </footer>
+          <SessionExpiredModal />
         </div>
       </NavProvider>
     </AuthProvider>

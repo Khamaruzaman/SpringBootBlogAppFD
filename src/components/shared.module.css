@@ -60,3 +60,67 @@
 .cardAuthor { font-size: 13px; font-weight: 600; color: var(--ink2); }
 .cardDate   { font-size: 12px; color: var(--muted); }
 .cardViews  { font-size: 12px; color: var(--muted); }
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(26, 18, 8, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: var(--paper2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(26, 18, 8, 0.25);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.modalBody {
+  padding: 24px;
+  color: var(--ink2);
+  line-height: 1.6;
+}
+
+.modalBody p {
+  margin: 0;
+}
+
+.modalFooter {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
