@@ -20,7 +20,7 @@ export default function HomePage() {
     try {
       const data = await api.getPosts(p, 9, auth?.token)
       setPosts(data.content || [])
-      setTotalPages(data.totalPages || 0)
+      setTotalPages(data.page?.totalPages || 0)
       setPage(p)
     } catch { /* handled silently */ }
     setLoading(false)
