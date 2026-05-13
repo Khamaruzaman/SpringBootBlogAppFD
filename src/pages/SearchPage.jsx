@@ -6,7 +6,7 @@ import * as api from '../api/blogApi'
 
 export default function SearchPage({ keyword }) {
   const { auth }    = useAuth()
-  const { navigate } = useNav()
+  const { navigate, goBack } = useNav()
   const [posts,      setPosts]      = useState([])
   const [page,       setPage]       = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -30,7 +30,7 @@ export default function SearchPage({ keyword }) {
       <section className="section">
         <div className="section-header">
           <h2 className="section-title">Results for "{keyword}"</h2>
-          <button className="btn btn-ghost btn-sm" onClick={() => navigate('home')}>← All Posts</button>
+          <button className="btn btn-ghost btn-sm" onClick={() => goBack()}>← Back</button>
         </div>
 
         {loading ? <Loading /> : posts.length === 0 ? (

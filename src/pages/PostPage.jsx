@@ -10,7 +10,7 @@ import styles from "./PostPage.module.css";
 
 export default function PostPage({ id }) {
   const { auth } = useAuth();
-  const { navigate } = useNav();
+  const { navigate, goBack } = useNav();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -46,7 +46,7 @@ export default function PostPage({ id }) {
     if (!confirm("Delete this post permanently?")) return;
     try {
       await api.deletePost(id, auth.token);
-      navigate("home");
+      goBack();
     } catch (e) {
       setError(e.message);
     }
@@ -70,8 +70,8 @@ export default function PostPage({ id }) {
 
   return (
     <article className={styles.page}>
-      <button className="back-link" onClick={() => navigate("home")}>
-        ← Back to posts
+      <button className="back-link" onClick={() => goBack()}>
+        ← Back
       </button>
 
       <header className={styles.header}>

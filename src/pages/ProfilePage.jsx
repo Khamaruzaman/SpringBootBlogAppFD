@@ -8,7 +8,7 @@ import styles from './ProfilePage.module.css'
 
 export default function ProfilePage({ userId }) {
   const { auth, logout } = useAuth()
-  const { navigate }     = useNav()
+  const { navigate, goBack }     = useNav()
   const [user,       setUser]       = useState(null)
   const [posts,      setPosts]      = useState([])
   const [page,       setPage]       = useState(0)
@@ -69,7 +69,7 @@ export default function ProfilePage({ userId }) {
 
   return (
     <div className={styles.page}>
-      <button className="back-link" onClick={() => navigate('home')}>← Back</button>
+      <button className="back-link" onClick={() => goBack()}>← Back</button>
 
       <div className={styles.profileHeader}>
         <div className={styles.avatar}>{initials(user.username)}</div>
