@@ -18,3 +18,42 @@
   margin-bottom: 36px;
   font-style: italic;
 }
+
+.passwordInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInputWrapper .form-input {
+  padding-right: 44px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--muted);
+}
+
+.passwordToggle svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+.passwordToggle:hover {
+  color: var(--ink2);
+}
+
+.passwordToggle:focus {
+  outline: none;
+  color: var(--accent);
+}

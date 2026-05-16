@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNav } from '../context/NavContext'
 import { Alert } from '../components/shared'
+import PasswordInput from '../components/PasswordInput'
 import styles from './AuthPage.module.css'
 
 export default function LoginPage() {
@@ -45,18 +46,14 @@ export default function LoginPage() {
         />
       </div>
 
-      <div className="form-group">
-        <label className="form-label">Password</label>
-        <input
-          className="form-input"
-          type="password"
-          value={form.password}
-          onChange={set('password')}
-          placeholder="••••••••"
-          autoComplete="current-password"
-          onKeyDown={onKey}
-        />
-      </div>
+      <PasswordInput
+        label="Password"
+        value={form.password}
+        onChange={set('password')}
+        placeholder="••••••••"
+        autoComplete="current-password"
+        onKeyDown={onKey}
+      />
 
       <button className="btn btn-primary" style={{ width: '100%' }} onClick={submit} disabled={loading}>
         {loading ? 'Signing in…' : 'Sign In →'}

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNav } from '../context/NavContext'
 import { Alert } from '../components/shared'
+import PasswordInput from '../components/PasswordInput'
 import styles from './AuthPage.module.css'
 
 export default function RegisterPage() {
@@ -46,15 +47,19 @@ export default function RegisterPage() {
         <input className="form-input" type="email" value={form.email} onChange={set('email')} placeholder="you@example.com" />
       </div>
 
-      <div className="form-group">
-        <label className="form-label">Password</label>
-        <input className="form-input" type="password" value={form.password} onChange={set('password')} placeholder="Min. 8 characters" />
-      </div>
+      <PasswordInput
+        label="Password"
+        value={form.password}
+        onChange={set('password')}
+        placeholder="Min. 8 characters"
+      />
 
-      <div className="form-group">
-        <label className="form-label">Confirm Password</label>
-        <input className="form-input" type="password" value={form.confirmPassword} onChange={set('confirmPassword')} placeholder="Repeat password" />
-      </div>
+      <PasswordInput
+        label="Confirm Password"
+        value={form.confirmPassword}
+        onChange={set('confirmPassword')}
+        placeholder="Repeat password"
+      />
 
       <button className="btn btn-primary" style={{ width: '100%' }} onClick={submit} disabled={loading}>
         {loading ? 'Creating…' : 'Create Account →'}
