@@ -40,6 +40,7 @@ export function AuthProvider({ children }) {
   })
 
   const [tokenExpired, setTokenExpired] = useState(false)
+  const [apiError, setApiError] = useState(null)
 
   // Check token expiration periodically
   useEffect(() => {
@@ -65,6 +66,16 @@ export function AuthProvider({ children }) {
     
     window.addEventListener('tokenExpired', handleTokenExpired)
     return () => window.removeEventListener('tokenExpired', handleTokenExpired)
+  }, [])
+
+  // Listen for API error event
+  useEffect(() => {
+    const handleApiError = (event) => {
+      setApiError(event.detail)
+    }
+    
+    window.addEventListener('apiError', handleApiError)
+    return () => window.removeEventListener('apiError', handleApiError)
   }, [])
 
   const persist = (a) => {
@@ -93,6 +104,10 @@ export function AuthProvider({ children }) {
     setTokenExpired(false)
   }
 
+  const clearApiError = () => {
+    setApiError(null)
+  }
+
   const triggerTokenExpired = () => {
     setAuth(null)
     sessionStorage.removeItem('blog_auth')
@@ -108,7 +123,9 @@ export function AuthProvider({ children }) {
       isAuthenticated,
       tokenExpired,
       clearTokenExpired,
-      triggerTokenExpired
+      triggerTokenExpired,
+      apiError,
+      clearApiError
     }}>
       {children}
     </AuthContext.Provider>

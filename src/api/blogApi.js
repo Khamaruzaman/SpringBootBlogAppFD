@@ -12,15 +12,27 @@ async function call(method, path, body, token) {
     ...(body ? { body: JSON.stringify(body) } : {}),
   })
   
-  if (res.status === 401) {
-    sessionStorage.removeItem('blog_auth')
-    // Dispatch event to notify auth context
-    window.dispatchEvent(new CustomEvent('tokenExpired'))
-    throw new Error('Session expired. Please login again.')
+  const json = await res.json()
+  
+  // Handle error responses
+  if (!json.success) {
+    const error = new Error(json.message || 'An error occurred')
+    error.status = res.status
+    error.details = json.data?.details
+    
+    // Check if it's a session expired (401 on protected endpoints, not auth endpoints)
+    if (res.status === 401 && !path.includes('/api/auth/')) {
+      sessionStorage.removeItem('blog_auth')
+      // Dispatch event to notify auth context
+      window.dispatchEvent(new CustomEvent('tokenExpired'))
+    } else if (res.status === 401 || res.status === 400 || res.status >= 500) {
+      // For auth errors (login/register) and other errors, dispatch a general error event
+      window.dispatchEvent(new CustomEvent('apiError', { detail: { message: json.message, details: json.data?.details } }))
+    }
+    
+    throw error
   }
   
-  const json = await res.json()
-  if (!json.success && json.message) throw new Error(json.message)
   return json.data
 }
 

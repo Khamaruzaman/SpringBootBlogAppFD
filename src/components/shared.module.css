@@ -124,3 +124,24 @@
   gap: 12px;
   justify-content: flex-end;
 }
+
+.errorDetails {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--paper);
+  border-left: 3px solid var(--accent2);
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.errorDetails strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.errorDetails p {
+  margin: 0;
+  color: var(--ink2);
+  line-height: 1.5;
+}
