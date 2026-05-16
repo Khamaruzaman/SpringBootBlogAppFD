@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useNav } from "../context/NavContext";
 import { Alert } from './shared'
 import { fmtDate } from '../utils/helpers'
 import * as api from '../api/blogApi'
@@ -7,6 +8,7 @@ import styles from './CommentSection.module.css'
 
 export default function CommentSection({ postId }) {
   const { auth } = useAuth()
+  const { navigate, goBack } = useNav();
   const [comments,       setComments]       = useState([])
   const [loaded,         setLoaded]         = useState(false)
   const [commentText,    setCommentText]    = useState('')
@@ -80,7 +82,12 @@ export default function CommentSection({ postId }) {
         {comments.map((c) => (
           <div key={c.id} className={styles.comment}>
             <div className={styles.commentHeader}>
-              <span className={styles.commentAuthor}>{c.author?.username || 'Anonymous'}</span>
+              <button
+                className={styles.commentAuthor}
+                onClick={() => navigate("profile", { userId: c.author?.id })}
+              >
+                {c.author?.username}
+              </button>
               <span className={styles.commentDate}>{fmtDate(c.createdAt)}</span>
             </div>
 
