@@ -77,7 +77,10 @@ export default function HomePage() {
       {showForm && (
         <PostFormModal
           onClose={() => setShowForm(false)}
-          onSave={() => { setShowForm(false); load(0) }}
+          onSave={(post) => { 
+            setShowForm(false)
+            navigate('post', { id: post.id })
+          }}
         />
       )}
     </>
